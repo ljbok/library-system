@@ -3,8 +3,8 @@ library-system application ver.2
 
 ## domain
 - http://www.library-system.site:8090/index1
-- ![image](https://github.com/ljbok/library-system/assets/149353095/db80c193-b82a-4b5d-9548-ca54d063d2e3)
-- ![image](https://github.com/ljbok/library-system/assets/149353095/80ea74f5-51cd-4cf7-aa23-8e338457584f)
+  ![image](https://github.com/ljbok/library-system/assets/149353095/db80c193-b82a-4b5d-9548-ca54d063d2e3)
+  ![image](https://github.com/ljbok/library-system/assets/149353095/80ea74f5-51cd-4cf7-aa23-8e338457584f)
 
 ## 프로젝트 소개
 - 프로젝트 유형 : 개인 프로젝트, 배포
