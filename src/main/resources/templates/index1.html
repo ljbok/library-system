@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>도서 관리 시스템 ver.2</title>
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Diphylleia&display=swap" rel="stylesheet">
+<style>
+    body {
+          margin: 0;
+          font-family: 'Diphylleia', serif;
+   }
+
+    .title{
+            display:flex;
+            width:100%;
+            justify-content: center;
+
+                font-family: 'Diphylleia', serif;
+                font-weight: bold;
+
+                 background-color: #347491; /* 배경색 */
+                 color: white;
+
+    }
+
+    .category{
+            display:flex;
+            width:100%;
+            justify-content: center;
+
+                font-family: 'Diphylleia', serif;
+                font-weight: bold; /* 글자 두께 */
+            margin-bottom : 1vh;
+    }
+
+    a {
+         text-decoration: none;
+         color: black;
+    }
+
+    .container{
+                   display:flex;
+                   height:80vh;
+                   align-items: center; /* 수직 가운데 정렬 */
+                   justify-content: center; /* 수평 가운데 정렬 */
+
+                   flex-flow: row wrap;
+    }
+
+
+    .box{
+             display:flex;
+             height: 40vh;
+             width: 80vh;
+             border:1px solid gray;
+
+             align-items: center; /* 수직 가운데 정렬 */
+             justify-content: center; /* 수평 가운데 정렬 */
+
+             font-size:3vh;
+
+             overflow: auto;
+
+    }
+
+    .small-box{
+                display:flex;
+               <!-- border: 1px solid gray;-->
+                height: 40vh;
+                width: 45vh;
+                align-items: center; /* 수직 가운데 정렬 */
+                justify-content: center; /* 수평 가운데 정렬 */
+
+                font-size:2.5vh;
+
+    }
+
+   .result-container{
+      display:flex;
+      height: 40vh;
+      width: 180vh;
+      /*border:1px solid gray;*/
+
+      align-items: center; /* 수직 가운데 정렬 */
+      justify-content: center; /* 수평 가운데 정렬 */
+
+      font-size:2vh;
+
+      flex-direction: column;
+   }
+
+
+   .result-box{
+          display:flex;
+          height: 3.8vh;
+          width: 78vh;
+          border:1px solid gray;
+
+          <!--align-items: center; /* 수직 가운데 정렬 */-->
+          justify-content: center; /* 수평 가운데 정렬 */
+
+          font-size:1.5vh;
+   }
+
+    .table{
+
+        padding: 10px;
+        width: 140px;
+        text-align: center;
+    }
+
+    .book-name-table{
+
+        padding: 10px;
+        width: 280px;
+        text-align: center;
+    }
+
+
+    .btn{
+                display: flex;
+                width: 28vh;
+                height: 5vh;
+                margin: 1vh;
+
+                font-size: 3vh;
+
+               align-items: flex-end; /* 수직 가운데 정렬 */
+               justify-content: center; /* 수평 가운데 정렬 */
+
+                   background-color: #347491; /* 배경색 */
+                   border: 2px solid #347491; /* 테두리 스타일과 색상 */
+                   color: #f2f542; /* 텍스트 색상 */
+                   text-decoration: none; /* 텍스트 밑줄 제거 */
+                   display: inline-block; /* 인라인 블록 요소로 표시 */
+                   border-radius: 5px; /* 모서리 둥글게 */
+                   transition: all 0.3s ease; /* 전체 속성에 애니메이션 효과 적용 */
+                   cursor: pointer; /* 마우스 커서 모양 변경 */
+
+                   font-family: 'Diphylleia', serif;
+
+     }
+
+
+    .big-btn{
+              display: flex;
+              width:35vh;
+              height:7vh;
+              margin: 2vh;
+
+              align-items: flex-end; /* 수직 가운데 정렬 */
+              justify-content: center; /* 수평 가운데 정렬 */
+
+              font-size: 4vh;
+
+                background-color: #f2f530; /* 배경색 */
+                border: 2px solid #f2f542; /* 테두리 스타일과 색상 */
+                color: #347491; /* 텍스트 색상 */
+                text-decoration: none; /* 텍스트 밑줄 제거 */
+                display: inline-block; /* 인라인 블록 요소로 표시 */
+                border-radius: 5px; /* 모서리 둥글게 */
+                transition: all 0.3s ease; /* 전체 속성에 애니메이션 효과 적용 */
+                cursor: pointer; /* 마우스 커서 모양 변경 */
+
+                font-family: 'Diphylleia', serif;
+
+    }
+
+    .small-form{
+            text-align: left;
+    }
+    .small-form input[type="text"] {
+        display: flex;
+        margin: 0 auto;
+        width: 28vh;
+    }
+
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+
+    // 한글 이름 정규식
+    const usernameRegex = /^[가-힣]+$/;
+
+    // 연락처 정규식
+    const phoneRegex = /^[0-9]+$/;
+
+    function checkUserName(target){
+        if( (target.value != null) && (target.value != "") ){
+             if(!usernameRegex.test(target.value)){
+               alert("“사용자명”에는 한글(자음+모음)의 조합만 가능합니다.");
+               document.getElementById(target.id).value="";
+               document.getElementById(target.id).focus();
+             }
+        }
+    } //checkUserName()
+
+    function checkPhone(target) {
+        if( (target.value != null) && (target.value != "") ){
+            if(!phoneRegex.test(target.value)){
+                alert("“연락처”에는 숫자의 조합만 가능합니다.");
+                document.getElementById(target.id).value="";
+                document.getElementById(target.id).focus();
+            }
+        }
+    }
+
+    // jquery section
+    $(function() {
+            $("#loanBtn").click(function() {
+
+                document.getElementById("result-loan").innerText = "";
+
+                // var loanHistoryRequest = $("#loanForm").serializeArray(); --> 이런식으로 작성하면 안됨
+                var loanHistoryRequest = {};
+                var formData = $("#loanForm").serializeArray();
+
+                // 배열을 순회하면서 JSON 객체로 변환
+                $(formData).each(function(index, obj){
+                    loanHistoryRequest[obj.name] = obj.value;
+                 });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/refactoring-library-app/loan",
+                    data: JSON.stringify(loanHistoryRequest),
+                    contentType:  "application/json",
+                    success: function() {
+                       // document.getElementById("result-loan").innerText = "대출이 완료되었습니다.";
+                       alert("도서 대출이 완료되었습니다.");
+                    },
+                    error: function(e) {
+                       // console.log(JSON.stringify(loanHistoryRequest));
+                        var errorMessage = JSON.parse(e.responseText).message;
+                        //alert(e.responseText);
+                        //alert(errorMessage);
+
+                        //document.getElementById("result-loan").innerText = errorMessage;
+                        alert(errorMessage);
+                    }
+                });
+            }); // end of $("#loanBtn").click(function()
+
+             $("#returnBtn").click(function() {
+
+                document.getElementById("result-return").innerText = "";
+
+                // form 안에 있는 데이터를 json 타입으로 변환하는 과정
+                var loanHistoryRequest = {};
+                var formData = $("#returnForm").serializeArray();
+                $(formData).each(function(index, obj){
+                    loanHistoryRequest[obj.name] = obj.value;
+                });
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/refactoring-library-app/return",
+                    data: JSON.stringify(loanHistoryRequest),
+                    contentType:  "application/json",
+                     success: function() {
+                        //document.getElementById("result-return").innerText = "반납이 완료되었습니다.";
+                        alert("도서 반납이 완료되었습니다.");
+                    },
+                    error: function(e) {
+                        //console.log(loanHistoryRequest);
+                        var errorMessage = JSON.parse(e.responseText).message;
+                        //document.getElementById("result-return").innerText = errorMessage;
+                        alert(errorMessage);
+                    }
+
+                });
+
+             }); // end of $("").click(function()
+
+             $("#bookSearchBtn").click(function(){
+                document.getElementById("search-result").innerHTML = "";
+
+                var bookname = document.getElementById("search-bookname").value;
+
+                if(bookname.trim()=="")
+                {
+                    alert('"도서명"을 정확하게 입력해주세요. \n 예)"도서 1권"의 경우 → "도서 1권(○)", "도서1권(Ｘ)", "도서 2권(Ｘ)"')  ;
+                    return;
+                }
+
+                var writer = document.getElementById("search-writer").value;
+                var resultContent = "";
+
+                $.ajax({
+                    type:"GET",
+                    url:"/refactoring-library-app/book-search",
+                    data: { bookName : bookname,
+                            writer : writer},
+                    contentType:  "application/json",
+                    success: function(result) {
+
+                        resultContent += '<div class="table"><b>' + '' + '</b></div>';
+                        resultContent += '"도서 검색 결과"<br>';
+                        resultContent += '<div class="result-box">';
+                                resultContent += '<div class="book-name-table"><b>' + '도서명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '저자' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '사용자명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '연락처' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '대여일' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '반납일' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '상태' + '</b></div>';
+                                resultContent += '</div>';
+
+                        result.forEach(function(book){
+                                resultContent += '<div class="result-box">';
+                                resultContent += '<div class="book-name-table">' + book.bookName + '</div>';
+                                resultContent += '<div class="table">' + book.writer + '</div>';
+                                resultContent += '<div class="table">' + book.userName + '</div>';
+                                resultContent += '<div class="table">' + book.phone + '</div>';
+
+                                const date1 = new Date(book.loanDate);
+                                const loanDate = date1.toLocaleString('en-US', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                });
+                                resultContent += '<div class="table">' + loanDate + '</div>';
+
+                                if(book.returnDate == "미반납"){
+                                    resultContent += '<div class="table">' + '미반납' + '</div>';
+                                }
+                                else{
+                                    const date2 = new Date(book.returnDate);
+                                    const returnDate = date2.toLocaleString('en-US', {
+                                      year: 'numeric',
+                                      month: '2-digit',
+                                      day: '2-digit',
+                                    });
+
+                                    resultContent += '<div class="table">' + returnDate + '</div>';
+                                }
+
+                                <!--resultContent += '<div class="table">' + book.loanDate + '</div>';-->
+                                <!--resultContent += '<div class="table">' + book.returnDate + '</div>';-->
+
+                                if(book.loanDate != "" && book.returnDate == "미반납"){
+                                  resultContent += '<div class="table">' + '대여 불가능' + '</div>';
+                                }
+                                else {
+                                  resultContent += '<div class="table">' + '대여 가능' + '</div>';
+                                }
+
+                                resultContent += '</div>';
+                                });
+                      //console.log(resultContent.toString());
+                      document.getElementById('search-result').innerHTML = resultContent;
+                     },
+                     error: function(e) {
+                         var errorMessage = JSON.parse(e.responseText).message;
+                         document.getElementById("search-result").innerText = errorMessage;
+                      }
+
+                    }); // end of ajax
+
+                }); // end of $("#bookSearchBtn").click(function(){
+
+                $("#userSearchBtn").click(function(){
+                    document.getElementById("search-result").innerHTML = "";
+
+                    var username = document.getElementById("search-username").value;
+                    var phone = document.getElementById("search-phone").value;
+                    var resultContent = "";
+
+                    $.ajax({
+                        type:"GET",
+                        url:"/refactoring-library-app/user-search",
+                        data: { username : username,
+                                phone : phone},
+                        contentType:  "application/json",
+                        success: function(result) {
+                            resultContent += '"사용자 검색 결과"<br>';
+                            resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table"><b>' + '사용자명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '연락처' + '</b></div>';
+                                resultContent += '<div class="book-name-table"><b>' + '도서명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '저자' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '대여일' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '반납일' + '</b></div>';
+                                resultContent += '</div>';
+
+                                result.forEach(function(user){
+                                resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table">' + user.userName + '</div>';
+                                resultContent += '<div class="table">' + user.phone + '</div>';
+                                resultContent += '<div class="book-name-table">' + user.bookName + '</div>';
+                                resultContent += '<div class="table">' + user.writer + '</div>';
+
+                                const date1 = new Date(user.loanDate);
+                                const loanDate = date1.toLocaleString('en-US', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                });
+                                resultContent += '<div class="table">' + loanDate + '</div>';
+
+                                if(user.returnDate == "미반납"){
+                                    resultContent += '<div class="table">' + '미반납' + '</div>';
+                                }
+                                else{
+                                    const date2 = new Date(user.returnDate);
+                                    const returnDate = date2.toLocaleString('en-US', {
+                                      year: 'numeric',
+                                      month: '2-digit',
+                                      day: '2-digit',
+                                    });
+
+                                    resultContent += '<div class="table">' + returnDate + '</div>';
+                                }
+
+                                <!--resultContent += '<div class="table">' + user.loanDate + '</div>';-->
+                                <!--resultContent += '<div class="table">' + user.returnDate + '</div>';-->
+
+                                resultContent += '</div>';
+                                });
+
+                             //console.log(resultContent);
+                             document.getElementById('search-result').innerHTML = resultContent;
+
+                        },
+                        error: function(e) {
+                            var errorMessage = JSON.parse(e.responseText).message;
+                            document.getElementById("search-result").innerText = errorMessage;
+                        }
+
+                    }); // ajax
+                }); // end of $("#userSearchBtn").click(function()
+
+                 $("#allListBtn").click(function(){
+
+                    document.getElementById("search-result").innerHTML = "";
+                    var resultContent = "";
+
+                     $.ajax({
+                        type:"GET",
+                        url:"/refactoring-library-app/loanhistory",
+                        contentType:  "application/json",
+                         success: function(result) {
+
+                            resultContent += '<br><br><sub>"전체 대출 이력 조회 결과"</sub>';
+                            resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table"><b>' + '대출 번호' + '</b></div>';
+                                resultContent += '<div class="book-name-table"><b>' + '도서명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '저자' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '사용자' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '연락처' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '대여일' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '반납일' + '</b></div>';
+                            resultContent += '</div>';
+
+                            for (let i = result.length - 1; i >= 0; i--) {
+                                let history = result[i];
+
+                                resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table">' + history.id + '</div>';
+                                resultContent += '<div class="book-name-table">' + history.bookName + '</div>';
+                                resultContent += '<div class="table">' + history.writer + '</div>';
+                                resultContent += '<div class="table">' + history.userName + '</div>';
+                                resultContent += '<div class="table">' + history.phone + '</div>';
+
+                                const date1 = new Date(history.loanDate);
+                                const loanDate = date1.toLocaleString('en-US', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                });
+                                resultContent += '<div class="table">' + loanDate + '</div>';
+
+                                if(history.returnDate == null){
+                                    resultContent += '<div class="table">' + '미반납' + '</div>';
+                                }
+                                else{
+                                    const date2 = new Date(history.returnDate);
+                                    const returnDate = date2.toLocaleString('en-US', {
+                                      year: 'numeric',
+                                      month: '2-digit',
+                                      day: '2-digit',
+                                    });
+
+                                    resultContent += '<div class="table">' + returnDate + '</div>';
+                                }
+
+                                resultContent += '</div>';
+                            }
+
+                            document.getElementById('search-result').innerHTML = resultContent;
+                         },
+                         error: function(e) {
+                            var errorMessage = JSON.parse(e.responseText).message;
+                            document.getElementById("search-result").innerText = errorMessage;
+                        }
+
+
+                     }); // ajax
+
+                 }); // end of $("#allListBtn").click(function(){
+
+
+             //});
+
+    }); // end of jquery section
+
+
+
+
+</script>
+
+<body>
+    <div class="title">
+        <h1>도서 관리 시스템 <sub>ver.2</sub></h1>
+    </div>
+    <div class="category">
+        <b> ▶ 대출 및 반납 | <a href="index2">도서 및 사용자 정보 관리</a></b>
+    </div>
+
+
+    <div class="main">
+        <div class="container">
+                <div class="box">
+                    <div class="small-box">
+                        <form id="loanForm" class="small-form">
+                            <sub>사용자명</sub><br> <input type="text" id="loan-username" name="userName" onblur="checkUserName(this)">
+                            <sub>연락처</sub><br> <input type="text" id="loan-phone" name="phone" onblur="checkPhone(this)">
+                            <sub>도서명</sub><br> <input type="text" id="loan-bookname" name="bookName">
+                            <sub>저자</sub><br> <input type="text" id="loan-writer" name="writer"><br>
+                            <input type="button" id="loanBtn" class="btn" value="대출"><br>
+                        </form>
+                        <span id="result-loan" name="result-loan" class="result"></span>
+                    </div>
+                    <div class="small-box">
+                        <form id="returnForm" class="small-form">
+                            <sub>사용자명</sub><br> <input type="text" id="return-username" name="userName" onblur="checkUserName(this)">
+                            <sub>연락처</sub><br> <input type="text" id="return-phone" name="phone" onblur="checkPhone(this)">
+                            <sub>도서명</sub><br> <input type="text" id="return-bookname" name="bookName">
+                            <sub>저자</sub><br> <input type="text" id="return-writer" name="writer"><br>
+                            <input type="button" id="returnBtn" class="btn" value="반납">
+                        </form>
+                        <span id="result-return" name="result-return"></span>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="small-box">
+                        <form class="small-form">
+                            도서명 <input type="text" id="search-bookname" name="search-bookname">
+                            저자 <input type="text" id="search-writer" name="search-writer"><br>
+                            <input type="button" class="btn" value="검색" id="bookSearchBtn">
+                            <!--<p><b><small>※검색 결과 하단 표시※</small></b></p>-->
+                        </form>
+                    </div>
+                    <div class="small-box">
+                        <form action="" class="small-form">
+                            사용자명 <input type="text" id="search-username" name="search-username" onblur="checkUserName(this)">
+                             연락처 <input type="text" id="search-phone" name="search-phone" onblur="checkPhone(this)"><br>
+                            <input type="button" class="btn" value="검색" id="userSearchBtn">
+                            <!--<p><b><small>※검색 결과 하단 표시※</small></b></p>-->
+                         </form>
+                    </div>
+                </div>
+                <div class="box">
+                    <input type="button" id="allListBtn" class="big-btn" value="대출 이력 조회">
+                </div>
+                <div class="box">
+                    <div class="result-container" id="search-result">
+                        <p><b>" 조회 및 검색 결과"</b></p>
+                    </div>
+                </div>
+
+        </div>
+
+
+    </div>
+
+</body>
+</html>

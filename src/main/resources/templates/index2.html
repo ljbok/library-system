@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>도서 관리 시스템 ver.2</title>
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Diphylleia&display=swap" rel="stylesheet">
+<style>
+  body {
+         margin: 0;
+         font-family: 'Diphylleia', serif;
+  }
+
+   .title{
+           display:flex;
+           width:100%;
+           justify-content: center;
+
+               font-family: 'Diphylleia', serif;
+               font-weight: bold;
+
+                background-color: #347491; /* 배경색 */
+                color: white;
+
+   }
+
+   .category{
+           display:flex;
+           width:100%;
+           justify-content: center;
+
+               font-family: 'Diphylleia', serif;
+               font-weight: bold; /* 글자 두께 */
+           margin-bottom : 1vh;
+   }
+
+   a {
+        text-decoration: none;
+        color: black;
+   }
+
+   .container{
+                  display:flex;
+                  height:80vh;
+                  align-items: center; /* 수직 가운데 정렬 */
+                  justify-content: center; /* 수평 가운데 정렬 */
+
+                  flex-flow: row wrap;
+   }
+
+
+   .box{
+            display:flex;
+            height: 40vh;
+            width: 80vh;
+            border:1px solid gray;
+
+            align-items: center; /* 수직 가운데 정렬 */
+            justify-content: center; /* 수평 가운데 정렬 */
+
+            font-size:3vh;
+
+            overflow: auto;
+
+   }
+
+   .small-box{
+               display:flex;
+               <!--border: 1px solid gray;-->
+               height: 40vh;
+               width: 45vh;
+               align-items: center; /* 수직 가운데 정렬 */
+               justify-content: center; /* 수평 가운데 정렬 */
+
+               font-size:2.5vh;
+
+   }
+
+    .result-container{
+          display:flex;
+          height: 40vh;
+          width: 180vh;
+          /*border:1px solid gray;*/
+
+          align-items: center; /* 수직 가운데 정렬 */
+          justify-content: center; /* 수평 가운데 정렬 */
+
+          font-size:2vh;
+
+          flex-direction: column;
+   }
+
+
+   .list-container{
+      display:flex;
+      height: 40vh;
+      width: 180vh;
+      /*border:1px solid gray;*/
+
+      align-items: center; /* 수직 가운데 정렬 */
+      justify-content: center; /* 수평 가운데 정렬 */
+
+      font-size:2vh;
+
+      flex-direction: column;
+   }
+
+   .result-box{
+          display:flex;
+          height: 3.8vh;
+          width: 78vh;
+          border:1px solid gray;
+
+          <!--align-items: center; /* 수직 가운데 정렬 */-->
+          justify-content: center; /* 수평 가운데 정렬 */
+
+          font-size:1.5vh;
+   }
+
+   .table{
+
+       padding: 10px;
+       width: 140px;
+       text-align: center;
+   }
+
+   .book-name-table{
+
+       padding: 10px;
+       width: 280px;
+       text-align: center;
+   }
+
+
+   .btn{
+                display: flex;
+                width: 28vh;
+                height: 5vh;
+                margin: 1vh;
+
+                font-size: 3vh;
+
+               align-items: flex-end; /* 수직 가운데 정렬 */
+               justify-content: center; /* 수평 가운데 정렬 */
+
+                   background-color: #347491; /* 배경색 */
+                   border: 2px solid #347491; /* 테두리 스타일과 색상 */
+                   color: #f2f542; /* 텍스트 색상 */
+                   text-decoration: none; /* 텍스트 밑줄 제거 */
+                   display: inline-block; /* 인라인 블록 요소로 표시 */
+                   border-radius: 5px; /* 모서리 둥글게 */
+                   transition: all 0.3s ease; /* 전체 속성에 애니메이션 효과 적용 */
+                   cursor: pointer; /* 마우스 커서 모양 변경 */
+
+                   font-family: 'Diphylleia', serif;
+
+     }
+
+
+    .btn2{
+                display: flex;
+                width: 28vh;
+                height: 5vh;
+                margin: 1vh;
+
+                font-size: 3vh;
+
+               align-items: flex-end; /* 수직 가운데 정렬 */
+               justify-content: center; /* 수평 가운데 정렬 */
+
+                   background-color: #f2f542; /* 배경색 */
+                   border: 2px solid #f2f542; /* 테두리 스타일과 색상 */
+                   color: #347491; /* 텍스트 색상 */
+                   text-decoration: none; /* 텍스트 밑줄 제거 */
+                   display: inline-block; /* 인라인 블록 요소로 표시 */
+                   border-radius: 5px; /* 모서리 둥글게 */
+                   transition: all 0.3s ease; /* 전체 속성에 애니메이션 효과 적용 */
+                   cursor: pointer; /* 마우스 커서 모양 변경 */
+
+                   font-family: 'Diphylleia', serif;
+    }
+
+    .small-btn{
+
+       background-color: #d8e0eb; /* 배경색 */
+       border: 2px solid #d8e0eb; /* 테두리 스타일과 색상 */
+       color: black; /* 텍스트 색상 */
+       text-decoration: none; /* 텍스트 밑줄 제거 */
+       display: inline-block; /* 인라인 블록 요소로 표시 */
+       border-radius: 5px; /* 모서리 둥글게 */
+       transition: all 0.3s ease; /* 전체 속성에 애니메이션 효과 적용 */
+       cursor: pointer; /* 마우스 커서 모양 변경 */
+
+       font-family: 'Diphylleia', serif;
+    }
+
+    .small-form{
+            text-align: left;
+    }
+    .small-form input[type="text"] {
+        display: flex;
+        margin: 0 auto;
+        width: 28vh;
+    }
+
+
+
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+
+    // 한글 이름 정규식
+    const usernameRegex = /^[가-힣]+$/;
+
+    // 연락처 정규식
+    const phoneRegex = /^[0-9]+$/;
+
+    // 나이 정규식
+    const ageRegex = /^[0-9]+$/;
+
+    function checkUserName(target){
+        if( (target.value != null) && (target.value != "") ){
+             if(!usernameRegex.test(target.value)){
+               alert("“사용자명”에는 한글(자음+모음)의 조합만 가능합니다.");
+               document.getElementById(target.id).value="";
+               document.getElementById(target.id).focus();
+             }
+        }
+    } //checkUserName()
+
+    function checkPhone(target) {
+        if( (target.value != null) && (target.value != "") ){
+            if(!phoneRegex.test(target.value)){
+                alert("“연락처”에는 숫자의 조합만 가능합니다.");
+                document.getElementById(target.id).value="";
+                document.getElementById(target.id).focus();
+            }
+        }
+    }
+
+    function checkAge(target) {
+        if( (target.value != null) && (target.value != "") ){
+            if(!ageRegex.test(target.value)){
+                alert("“나이”에는 숫자의 조합만 가능합니다.");
+                document.getElementById(target.id).value="";
+                document.getElementById(target.id).focus();
+            }
+        }
+    }
+
+    function userModifyBtn(target){
+        //alert("(미완성) 전달받은 회원번호 : " + target.value);
+        var id = target.value;
+        //window.open('/refactoring-library-app/user-modify?id='+id, '사용자 정보 수정', 'width=500,height=500');
+        window.open('/user-modify?id='+id, '사용자 정보 수정', 'width=500,height=500');
+    } // end of userModifyBtn()
+
+
+    function bookModifyBtn(target){
+        //alert("(미완성) 전달받은 도서번호 : " + target.value);
+         var id = target.value;
+        //window.open('/refactoring-library-app/book-modify?id='+id, '사용자 정보 수정', 'width=500,height=500');
+        window.open('/book-modify?id='+id, '사용자 정보 수정', 'width=500,height=500');
+    }
+
+    function userDeleteBtn(target){
+
+        var result = confirm("해당 사용자를 삭제하시겠습니까? \n ※주의 : 삭제 후 복구할 수 없습니다.※");
+        if (!result) {
+            return;
+        }
+
+        var id = target.value;
+             $.ajax({
+                        type: "DELETE",
+                        url: "/refactoring-library-app/user?id=" + id,
+                        contentType: "application/json",
+                        success: function() {
+                            alert("삭제 완료");
+
+                            // userListBtn 간접적으로 클릭 이벤트 발생시키기
+                            var userListBtn = document.getElementById("userListBtn");
+                            if (userListBtn) {
+                                var clickEvent = new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                });
+                                userListBtn.dispatchEvent(clickEvent);
+                            }
+
+                        },
+                        error: function(e) {
+                            var errorMessage = JSON.parse(e.responseText).message;
+                            alert(errorMessage);
+                        }
+
+            }); // ajax
+    } // end of userDeleteBtn()
+
+     function bookDeleteBtn(target){
+
+        var result = confirm("해당 도서를 삭제하시겠습니까? \n ※주의 : 삭제 후 복구할 수 없습니다.※");
+        if (!result) {
+            return;
+        }
+
+        var id = target.value;
+             $.ajax({
+                        type: "DELETE",
+                        url: "/refactoring-library-app/book?id=" + id,
+                        contentType: "application/json",
+                        success: function() {
+                            alert("삭제 완료");
+
+                            // bookListBtn 간접적으로 클릭 이벤트 발생시키기
+                            var bookListBtn = document.getElementById("bookListBtn");
+                            if (bookListBtn) {
+                                var clickEvent = new MouseEvent('click', {
+                                    bubbles: true,
+                                    cancelable: true,
+                                    view: window
+                                });
+                                bookListBtn.dispatchEvent(clickEvent);
+                            }
+
+                        },
+                        error: function(e) {
+                            var errorMessage = JSON.parse(e.responseText).message;
+                            alert(errorMessage);
+                        }
+
+            }); // ajax
+    } // end of bookDeleteBtn()
+
+
+    // jquery section
+    $(function() {
+             $("#userRegistBtn").click(function() {
+
+                var userName = document.getElementById("name").value;
+                var phone = document.getElementById("phone").value;
+                var age = document.getElementById("age").value;
+
+                if(userName.trim() == null || phone.trim() == "" || age.trim() == ""){
+                    alert("사용자 등록을 위해 모든 정보를 입력해주세요.");
+                    return;
+                }
+
+                // form 안에 있는 데이터를 json 타입으로 변환하는 과정
+                var userRequest = {};
+                var formData = $("#user-form").serializeArray();
+                $(formData).each(function(index, obj){
+                    userRequest[obj.name] = obj.value;
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/refactoring-library-app/user",
+                    data: JSON.stringify(userRequest),
+                    contentType: "application/json",
+                    success: function() {
+                        alert("사용자 등록이 완료되었습니다.");
+                    },
+                    error: function(e) {
+                        var errorMessage = JSON.parse(e.responseText).message;
+                        alert(errorMessage);
+                    }
+
+                }); // ajax
+
+             }); // end of $("userRegistBtn").click(function()
+
+             $("#userListBtn").click(function(){
+                document.getElementById("list-result").innerHTML = "";
+
+                var resultContent = "";
+
+                $.ajax({
+                    type:"GET",
+                    url:"/refactoring-library-app/users",
+                    data: { },
+                    contentType:  "application/json",
+                    success: function(result) {
+                        resultContent += '<div class="table"><b>' + '' + '</b></div>';
+                        resultContent += '"사용자 전체 조회 결과"<br>';
+                        resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table"><b>' + '회원번호' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '사용자명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '나이' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '연락처' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '가입일' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '수정' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '삭제' + '</b></div>';
+                        resultContent += '</div>';
+
+                        result.forEach(function(user){
+                                resultContent += '<div class="result-box">';
+                                    resultContent += '<div class="table">' + user.id + '</div>';
+                                    resultContent += '<div class="table">' + user.name + '</div>';
+                                    resultContent += '<div class="table">' + user.age + '</div>';
+                                    resultContent += '<div class="table">' + user.phone + '</div>';
+
+                                    const date1 = new Date(user.date);
+                                    const userDate = date1.toLocaleString('en-US', {
+                                      year: 'numeric',
+                                      month: '2-digit',
+                                      day: '2-digit',
+                                    });
+                                    resultContent += '<div class="table">' + userDate + '</div>';
+
+                                    resultContent += '<div class="table">' + '<button type="button" class="small-btn" id="userModifyBtn" value="' + user.id + '"'
+                                                     + 'onclick="userModifyBtn(this)"'
+                                                     + '>'
+                                                     + '수정</button></div>';
+
+                                   resultContent += '<div class="table">' + '<button type="button" class="small-btn" id="userDeleteBtn" value="' + user.id + '"'
+                                                     + 'onclick="userDeleteBtn(this)"'
+                                                     + '>'
+                                                     + '삭제</button></div>';
+
+                                resultContent += '</div>';
+                    });
+                      document.getElementById('list-result').innerHTML = resultContent;
+                    },
+                     error: function(e) {
+                         var errorMessage = JSON.parse(e.responseText).message;
+                         document.getElementById("list-result").innerText = errorMessage;
+                     }
+
+                }); // end of ajax
+
+             }); // end of $("#userListBtn").click(function(){
+
+
+             <!--위 사용저 정부 관리 , 아래 도서 정보 관리-->
+
+              $("#bookRegistBtn").click(function(){
+                //alert("도서 등록 진행");
+                var bookname = document.getElementById("bookname").value;
+                var writer = document.getElementById("writer").value;
+
+                if( (bookname == null) || (bookname.trim() == "") ){
+                    alert("도서명을 정확하게 입력해주세요. ");
+                    return;
+                }
+                if( (writer == null) || (writer == "") ){
+                    alert("저자명을 정확하게 입력해주세요.");
+                    return;
+                }
+
+                // form 안에 있는 데이터를 json 타입으로 변환하는 과정
+                var bookRequest = {};
+                var formData = $("#book-form").serializeArray();
+                $(formData).each(function(index, obj){
+
+                    if(obj.name == "bookname")
+                        bookRequest["name"] = obj.value;
+                    else
+                        bookRequest[obj.name] = obj.value;
+
+                }); // end of  $(formData).each(function(index, obj){
+
+                $.ajax({
+                    type: "POST",
+                    url: "/refactoring-library-app/book",
+                    data: JSON.stringify(bookRequest),
+                    contentType: "application/json",
+                    success: function() {
+                        alert("도서 등록이 완료되었습니다.");
+                    },
+                    error: function(e) {
+                        var errorMessage = JSON.parse(e.responseText).message;
+                        alert(errorMessage);
+                    }
+
+                }); // end of ajax
+              }); // end of  $("#bookRegistBtn").click(function(){
+
+
+             $("#bookListBtn").click(function(){
+                    document.getElementById("book-list-result").innerHTML = "";
+                    var resultContent = "";
+
+                    $.ajax({
+                        type:"GET",
+                        url:"/refactoring-library-app/books",
+                        data: { },
+                        contentType:  "application/json",
+                        success: function(result) {
+                            resultContent += '"도서 전체 조회 결과"<br>';
+                            resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table"><b>' + '도서번호' + '</b></div>';
+                                resultContent += '<div class="book-name-table"><b>' + '도서명' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '저자' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '등록일' + '</b></div>';
+
+                                resultContent += '<div class="table"><b>' + '수정' + '</b></div>';
+                                resultContent += '<div class="table"><b>' + '삭제' + '</b></div>';
+
+                                 resultContent += '</div>';
+
+                            result.forEach(function(book){
+                                resultContent += '<div class="result-box">';
+                                resultContent += '<div class="table">' + book.id + '</div>';
+                                resultContent += '<div class="book-name-table">' + book.name + '</div>';
+                                resultContent += '<div class="table">' + book.writer + '</div>';
+
+                                const date1 = new Date(book.regiDate);
+                                const bookDate = date1.toLocaleString('en-US', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                });
+                                resultContent += '<div class="table">' + bookDate + '</div>';
+
+                                resultContent += '<div class="table">' + '<button type="button" class="small-btn" id="bookModifyBtn" value="' + book.id + '"'
+                                                 + 'onclick="bookModifyBtn(this)"'
+                                                 + '>'
+                                                 + '수정</button></div>';
+
+                               resultContent += '<div class="table">' + '<button type="button" class="small-btn" id="bookDeleteBtn" value="' + book.id + '"'
+                                                 + 'onclick="bookDeleteBtn(this)"'
+                                                 + '>'
+                                                 + '삭제</button></div>';
+
+                                resultContent += '</div>';
+                            });
+
+                             //console.log(resultContent);
+                             document.getElementById('book-list-result').innerHTML = resultContent;
+
+                        },
+                        error: function(e) {
+                            var errorMessage = JSON.parse(e.responseText).message;
+                            document.getElementById('book-list-result').innerHTML = resultContent;
+                        }
+
+                    }); // ajax
+             }); // end of $("#bookListBtn").click(function(){
+
+
+
+
+
+    }); // end of jquery section
+
+
+
+
+</script>
+
+
+<body>
+    <div class="title">
+        <h1>도서 관리 시스템 <sub>ver.2</sub></h1>
+    </div>
+    <div class="category">
+        <b> <a href="index1" > 대출 및 반납</a> | ▶ 도서 및 사용자 정보 관리</b>
+    </div>
+
+
+    <div class="main">
+        <div class="container">
+            <div class="box">
+                <div class="small-box">
+                        <input type="button" id="userListBtn" class="btn2" value="전체 사용자 조회"><br>
+                </div>
+                <div class="small-box">
+                    <form id="user-form" name="user-form" class="small-form">
+                        <sub>사용자명</sub><br> <input type="text" id="name" name="name" onblur="checkUserName(this)">
+                        <sub>연락처</sub><br> <input type="text" id="phone" name="phone" onblur="checkPhone(this)">
+                        <sub>나이</sub><br> <input type="text" id="age" name="age" onblur="checkAge(this)"><br>
+                        <input type="button" class="btn" value="사용자 등록" id="userRegistBtn">
+                    </form>
+                </div>
+            </div> <!--end of box-->
+            <div class="box">
+                <div class="small-box">
+                        <input type="button" id="bookListBtn" class="btn2" value="전체 도서 조회"><br>
+                </div>
+
+                <div class="small-box">
+                    <form id="book-form" name="book-form" class="small-form">
+                        <sub>도서명</sub><br> <input type="text" id="bookname" name="bookname" >
+                        <sub>저자</sub><br> <input type="text" id="writer" name="writer" ><br>
+                        <input type="button" class="btn" value="도서 등록" id="bookRegistBtn">
+                    </form>
+                </div>
+            </div> <!--end of box-->
+            <div class="box">
+                <div class="list-container" id="list-result">
+                    <p><b>"사용자 조회 검색 결과"</b></p><br>
+                </div>
+            </div>
+            <div class="box">
+                <div class="list-container" id="book-list-result">
+                    <p><b>"도서 조회 검색 결과"</b></p><br>
+                </div>
+            </div>
+
+         </div> <!--container-->
+    </div> <!--main-->
+
+</body>
+</html>

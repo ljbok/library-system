@@ -1,0 +1,39 @@
+# port
+server:
+  port: 8090
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost/refactorlibrary"
+    username: "root"
+    password: "4788"
+    driver-class-name : com.mysql.cj.jdbc.Driver
+
+# view location
+view:
+  spring:
+    thymeleaf:
+      suffix: .html
+
+
+# encoding korean
+encoding:
+  spring:
+    http:
+      encoding:
+        charset: UTF-8
+    servlet:
+      filter:
+        character:
+          encoding:
+            enabled: true
+            force-request: true
+            force-response: true
+            encoding: UTF-8
+            force: true
+
+# "localhost:port" + "/" <-
+url:
+  server:
+    servlet:
+      context-path: /
